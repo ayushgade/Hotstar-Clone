@@ -1,15 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 import styled from 'styled-components'
+import db from '../firebase';
+import Movies from './Movies';
+
 function Details() {
+    const { id } = useParams();//it will save nin parameter
+    const [ movie, setMovie] = useState()//useState is foe single components
+    
+    useEffect(() => {
+        // Grab the movies info from DB
+        db.collection("movies")
+        .doc(id)
+        .get()
+        .then((doc)=>{
+            if(doc.exists){
+                //save the movie data
+                setMovie(doc.data());
+            }else {
+                //redirect to home page
+            }
+        })
+    }, [id])// this [] empty bracket means call above funtionnality whenever you load the component
+
     return (
-      <Container>
-          <Background>
-              <img src="https://cdn.vox-cdn.com/thumbor/eU72waq9EjmEsOS-sMcndQrGzXc=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/11604673/BO_RGB_s120_22a_cs_pub.pub16.318.jpg" />
-          </Background>
-          <ImageTitle>
-          <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/D7AEE1F05D10FC37C873176AAA26F777FC1B71E7A6563F36C6B1B497CAB1CEC2/scale?width=1440&aspectRatio=1.78" />
-          </ImageTitle> 
-          <Controls>
+        <Container>
+            {movie && (
+                <>
+                <Background>
+                <img src={movie.backgroundImg} />
+            </Background>
+            <ImageTitle>
+                <img src={movie.titleImg} />
+            </ImageTitle>
+            <Controls>
                 <PlayButton>
                     <img src="/images/play-icon-black.png" />
                     <span>PLAY</span>
@@ -26,15 +50,17 @@ function Details() {
                 </GroupWatchButton>
             </Controls>
             <SubTitle>
-                2018 • 7m • Family, Fantasy, Kids, Animation
+                     {movie.subTitle}      
             </SubTitle>
             <Description>
-                A Chinese mom who’s sad when her grown son leaves home gets another chance at motherhood when one of her dumplings springs to life. But she finds that nothing stays cute and small forever.
+                {movie.description}
             </Description>
-      </Container>
+            </>
+            )}
+            
+        </Container>
     )
 }
-
 export default Details
 
 const Container = styled.div`
@@ -64,6 +90,7 @@ const ImageTitle = styled.div`
     min-height: 170px;
     min-width: 200px;
     margin-top: 60px;
+    margin-left: 17px;
     img{
         height: 100%;
         width: 100%;
@@ -94,7 +121,7 @@ const PlayButton = styled.button`
         background: rgb(198, 198, 198);
     }
 `
-const TrailerButton  = styled(PlayButton)`
+const TrailerButton = styled(PlayButton)`
     background: rgba(0, 0 , 0, 0.3);
     color: white;
     border: 1px solid white;
@@ -122,13 +149,13 @@ const GroupWatchButton = styled(AddButton)`
 `
 const SubTitle = styled.div`
        margin-top: 26px;
-       font-size: 15px;
+       font-size: 17px;
        margin-left: 17px;
 `
 const Description = styled.div`
        margin-top: 16px;
        line-height: 1.4;
        max-width: 670px;
-       font-size: 20px;
+       font-size: 18px;
        margin-left: 17px;
 `

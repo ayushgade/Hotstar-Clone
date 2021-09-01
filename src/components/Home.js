@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react' //useEffect tells the application that whenever you load your page i
+import React, { useEffect } from 'react' //useEffect tells the application that whenever you load your page i
 import styled from 'styled-components'//will do as you commended me to do............
 import ImgSlider from './ImgSlider'
 import Viewers from './Viewers'

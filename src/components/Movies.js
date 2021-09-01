@@ -1,54 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from "react-router-dom"
 import { selectMovies } from "../features/movie/movieSlice"
 import { useSelector } from "react-redux"
 function Movies() {
     const movies = useSelector(selectMovies);
     return (
         <Container>
-                <h4>Recommended for you</h4>
+            <h4>Recommended for you</h4>
             <Content>
-                { movies &&
-                movies.map((movie)=>
-                <Wrap key={movie.id}>
-                    <img src={movie.cardImg} /> 
-                </Wrap>
-                )}
-            <Wrap>
-                <img src="https://lumiere-a.akamaihd.net/v1/images/image_a6a1ee4b.jpeg?region=0,0,1920,1080" />
-            </Wrap>
-            <Wrap>
-                <img src="https://lumiere-a.akamaihd.net/v1/images/image_a6a1ee4b.jpeg?region=0,0,1920,1080" />
-            </Wrap>
-            <Wrap>
-                <img src="https://lumiere-a.akamaihd.net/v1/images/image_a6a1ee4b.jpeg?region=0,0,1920,1080" />
-            </Wrap>
-            <Wrap>
-                <img src="https://lumiere-a.akamaihd.net/v1/images/image_a6a1ee4b.jpeg?region=0,0,1920,1080" />
-            </Wrap>
-            <Wrap>
-                <img src="https://lumiere-a.akamaihd.net/v1/images/image_a6a1ee4b.jpeg?region=0,0,1920,1080" />
-            </Wrap>
-            <Wrap>
-                <img src="https://lumiere-a.akamaihd.net/v1/images/image_a6a1ee4b.jpeg?region=0,0,1920,1080" />
-            </Wrap>
-            <Wrap>
-                <img src="https://lumiere-a.akamaihd.net/v1/images/image_a6a1ee4b.jpeg?region=0,0,1920,1080" />
-            </Wrap>
-            <Wrap>
-                <img src="https://lumiere-a.akamaihd.net/v1/images/image_a6a1ee4b.jpeg?region=0,0,1920,1080" />
-            </Wrap>
-            
-        </Content>
+                {movies &&
+                    movies.map((movie) => (
+                        <Wrap key={movie.id}>
+                            <Link to={`/detail/${movie.id}`}>
+                                <img src={movie.cardImg} />
+                            </Link>
+                        </Wrap>
+                    ))
+                }
+
+            </Content>
         </Container>
     )
 }
 
 export default Movies
 
-const Container = styled.div `
+const Container = styled.div`
 `
-const Content = styled.div `
+const Content = styled.div`
     display: grid;
     grid-gap: 25px;
     grid-template-columns: repeat(4, minmax(0, 1fr));
